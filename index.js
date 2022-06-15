@@ -106,28 +106,29 @@ app.get('/3', (req,res)=>{
 }); 
 app.use(express.static('public')); 
 app.get('/venta', (req,res)=>{
-    getEntradas(function (err,data){
-        id = data.map(obj => obj.id_ent);
-        preE = data.map(obj => obj.pre_ent);
-        tipoP = data.map(obj => obj.tp_ent);
-        desTE = data.map(obj => obj.des_ten);
-        nomP = data.map(obj => obj.nom_par);
-        res.render('venta', {preE, tipoP, desTE, nomP, id});
+    getParques(function (err,data1){
+        getEntradas(function (err,data){
+            nomP=data1.map(obj => obj.nom_par);
+            id = data.map(obj => obj.id_ent);
+            preE = data.map(obj => obj.pre_ent);
+            tipoP = data.map(obj => obj.tp_ent);
+            desTE = data.map(obj => obj.des_ten);
+            nom = data.map(obj => obj.nom_par);
+            res.render('venta', {preE, tipoP, desTE, nom, id, nomP});
+        })
     })
 }); 
 app.post('/venta',(req,res) => {
-	let nom=req.body.nom
-	let app=req.body.app
-	let apm=req.body.apm
-	let dat=req.body.dat
-	let mail=req.body.dino
-	let usu=req.body.usu
-	let pass=req.body.pass
-	con.query('INSERT INTO usuario(`nom_usu`,`app_usu`,`apm_usu`,`fec_usu`,`usu_usu`,`cor_usu`,`pas_usu`) values("'+nomC+'","'+appC+'","'+apmC+'","'+dat+'","'+usuC+'","'+mail+'","'+pasC+'")',(err,respuesta,fields)=> {
-		if(err)return res.render('index')
-			res.render('index');
+	let can=req.body.cantidadE
+	let ent=req.body.tipoE
+    console.log(can, ent);
+	con.query('INSERT INTO ventaentradas(`can_ven`,`dat_ven`,`id_ent`) values('+can+', now(),'+ent+')',(err,respuesta,fields)=> {
+		if(err)return console.log(err)
+            getParques(function (err,data){
+                nomP = data.map(obj => obj.nom_par);
+                res.render('index', {nomP});
+            });
 	});
-
 });
                             
 //Callbacks DB
@@ -156,7 +157,7 @@ function getActividades(idParque, callback) {
     });
 }
 function getEntradas(callback) {
-    con.query('SELECT e.id_ent, e.pre_ent, e.tp_ent, t.des_ten, p.nom_par FROM tipoEntrada t INNER JOIN entradas e ON e.id_ten=t.id_ten INNER JOIN parques p ON p.id_par=e.id_par', function(err, rows) {
+    con.query('SELECT e.id_ent, e.pre_ent, e.tp_ent, t.des_ten, p.nom_par FROM tipoEntrada t INNER JOIN entradas e ON e.id_ten=t.id_ten INNER JOIN parques p ON p.id_par=e.id_par ORDER BY id_ent', function(err, rows) {
 		if(err) return callback(err);
 		callback(null, rows);
     });

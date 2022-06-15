@@ -7,11 +7,13 @@ block style
 block cuerpo
     div.control
         h2 En esta sección podrá comprar sus entradas para cualquiere de nuestros parques.
-        form(action="", method="post") 
+            br
+        form(action="/venta", method="post" class="control")
+            button(type="submit" class="btn btn-success") Comprar 
             div.mb-3
                 h3 Seleccione el tipo de entrada y la cantidad
                 label(for="cantidadE") Selecciona la cantidad
-                select(class="form-select" aria-label="Selecciona la cantidad" id="cantidadE")
+                select(class="form-select" aria-label="Selecciona la cantidad" id="cantidadE" name="cantidadE")
                     <option value='1' selected>1</option>
                     <option value='2'>2</option>
                     <option value='3'>3</option>
@@ -21,6 +23,17 @@ block cuerpo
                     <option value='7'>7</option>
                     <option value='8'>8</option>
                 h4 Selecciona el tipo de entrada
-                div.form-check
-                    each val, index in id
+                each val, index in id
+                    div.form-check
                         input(class="form-check-input" type="radio" name="tipoE" value=val id=val)
+                        div(class="card text-center form-check-label" for="flexRadioDefault1")
+                            div.card-header=nom[index]
+                            div.card-body
+                                h5.card-title=desTE[index]
+                                p.card-text $#{preE[index]}
+                            div(class="card-footer text-muted") 
+                                if (tipoP[index]=='0')
+                                    p Niño
+                                else
+                                    p Adulto
+                
