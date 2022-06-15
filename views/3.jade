@@ -1,0 +1,27 @@
+extends ./basic.jade
+block titulo
+    title CityWalk
+block style
+    link(rel="stylesheet", type="text/css", media="screen", href="css/main.css")
+    link(href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css", rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor", crossorigin="anonymous")
+block cuerpo
+    div.control
+        img(src="img/walk.jpg" class="img-fluid" alt="...")
+        h1 CityWalk
+        br
+        h3 Actividades
+        ul.list-group
+            each val, index in nomAc
+                div(class="card text-bg-light mb-3" style="max-width: 100%;")
+                    div.card-body
+                        h5.card-title=val
+                        p.card-text=desAc[index]
+        
+        br
+        h3 Hoteles
+        ul.list-group
+            each val, index in nomH
+                div(class="card text-bg-light mb-3" style="max-width: 100%;")
+                    div.card-body
+                        h5.card-title=val
+                        p.card-text=desH[index]
