@@ -1,0 +1,89 @@
+extends ./basic.jade
+block titulo
+	title Log In
+block style 
+	link(rel="stylesheet", type="text/css", media="screen", href="css/main.css")
+block cuerpo
+	block advertencia	
+	div.form-structor
+		div(class='signup slide-up')
+			form(action="/agregarUsuario", method="post")
+				h2(class="form-title", id="signup")
+					span o 
+					|Registrarse
+				div.form-holder
+					input(type="text", class="input", placeholder="Nombre", name="nom", maxlength=20,required)
+					input(type="text",class="input", placeholder="Apellido Paterno", name="app", maxlength=20, required)
+					input(type="text", class="input", placeholder="Apellido Materno", name="apm",maxlength=20, required)
+					input(type="date", class="input", placeholder="Fecha de Nacimiento", name="dat", value="2000-01-01", min="1950-01-01", max="2015-01-01",required)
+					input(type="email", class="input", placeholder="Email", name="dino", maxlength=30, required)
+					input(type="text", class="input", placeholder="Usuario", name="usu", maxlength=30,required)
+					input(type="password", class="input", placeholder="Password", name="pass", maxlength=30, minlength=6, required)
+					input(type="password", class="input", placeholder="Confirm Password", name="pass2", maxlength=30, required)
+					div(class="check")
+						a(href="aviso.html")
+							|Aviso de Privacidad:
+						br
+						label(for="true")|Acepto el aviso
+							input(type="radio", name="acep", class="check", value="true", id="true")
+						label(for="false")|No Acepto
+							input(type="radio", name="acep", class="check", values="false", id="false")
+						br
+					button(class="submit-btn")
+						| Registrarse
+		div.login
+			form(action="/loginU", method="post")
+				div.center
+					h2(class="form-title", id="login")
+						span o
+						| Ingresar
+					div.form-holder
+						input(type="email", class="input", placeholder="Email", name="dino")
+						input(type="password", class="input", placeholder="Password", name="pass")
+						button(class="submit-btn")
+							| Ingresar
+	script(type="text/javascript")
+		|console.clear();
+		|const loginBtn = document.getElementById('login');
+		|const signupBtn = document.getElementById('signup');
+		|loginBtn.addEventListener('click', (e) => {
+		|let parent = e.target.parentNode.parentNode.parentNode;
+		|Array.from(e.target.parentNode.parentNode.parentNode.classList).find((element) => {
+		|if(element !== "slide-up") {
+		|parent.classList.add('slide-up')
+		|}else{
+		|signupBtn.parentNode.parentNode.classList.add('slide-up')
+		|parent.classList.remove('slide-up')
+		|}
+		|});
+		|});
+		|signupBtn.addEventListener('click', (e) => {
+		|let parent = e.target.parentNode.parentNode;
+		|Array.from(e.target.parentNode.parentNode.classList).find((element) => {
+		|if(element !== "slide-up") {
+		|parent.classList.add('slide-up')
+		|}else{
+		|loginBtn.parentNode.parentNode.parentNode.classList.add('slide-up')
+		|parent.classList.remove('slide-up')
+		|}
+		|});
+		|});	
+	script
+		|window.fbAsyncInit = function() {
+		|	FB.init({
+		|	appId      : '{your-app-id}',
+		|	cookie     : true,
+		|	xfbml      : true,
+		|	version    : '{api-version}'
+		|	});
+		|	
+		|	FB.AppEvents.logPageView();   
+		|	
+		|};
+		|(function(d, s, id){
+		|	var js, fjs = d.getElementsByTagName(s)[0];
+		|	if (d.getElementById(id)) {return;}
+		|	js = d.createElement(s); js.id = id;
+		|	js.src = "https://connect.facebook.net/en_US/sdk.js";
+		|	fjs.parentNode.insertBefore(js, fjs);
+		|}(document, 'script', 'facebook-jssdk'));
